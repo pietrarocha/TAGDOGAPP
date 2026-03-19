@@ -20,12 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 
 @Composable
-fun LiveTrackingScreen() {
+fun RastreamentoScreen(navController: NavController) {
     // Cores do seu design corrigidas
     val textDark = Color(0xFF1B243BL)
     val textGray = Color(0xFF888888L)
@@ -214,8 +215,8 @@ fun LiveTrackingScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewLiveTrackingScreen() {
+fun PreviewRastreamentoScreen() {
     MaterialTheme {
-        LiveTrackingScreen()
+        RastreamentoScreen(navController = androidx.navigation.compose.rememberNavController())
     }
 }

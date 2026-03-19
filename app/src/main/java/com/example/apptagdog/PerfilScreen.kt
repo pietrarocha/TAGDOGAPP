@@ -25,10 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+
 // Lembre-se de importar o seu R aqui, ex: import com.seuapp.R
 
 @Composable
-fun TagdogProfileScreen() {
+fun TagdogProfileScreen(navController: NavController) {
     // Cores e estilos baseados nos seus designs
     val primaryOrange = Color(0xFFD37D41)
     val inactiveGray = Color(0xFF888888)
@@ -169,7 +172,7 @@ fun UserProfileCard() {
             // Foto e Badge (image_25 mockup)
             Box {
                 Image(
-                    painter = painterResource(id = android.R.drawable.ic_menu_gallery), // Troque pelo seu R.drawable.foto_maria
+                    painter = painterResource(R.drawable.img_mulher), // Troque pelo seu R.drawable.foto_maria
                     contentDescription = "Maria and Dog",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -459,6 +462,6 @@ fun ProfileBottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, 
 @Composable
 fun PreviewTagdogProfileScreen() {
     MaterialTheme {
-        TagdogProfileScreen()
+        TagdogProfileScreen(navController = androidx.navigation.compose.rememberNavController())
     }
 }

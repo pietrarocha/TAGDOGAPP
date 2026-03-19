@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 // Lembre-se de importar o seu R aqui, ex: import com.seuapp.R
 
 @Composable
-fun TagdooLoginScreen() {
+fun TagdooLoginScreen(onLoginClick: () -> Unit) {
     // Cores do layout
     val primaryOrange = Color(0xFFD37D41)
     val backgroundGray = Color(0xFFF5F6F8)
@@ -157,7 +157,7 @@ fun TagdooLoginScreen() {
 
                         // Botão Entrar
                         Button(
-                            onClick = { /* Ação de Entrar */ },
+                            onClick = { onLoginClick() },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(55.dp),
@@ -229,6 +229,6 @@ fun TagdooLoginScreen() {
 @Composable
 fun PreviewTagdooLoginScreen() {
     MaterialTheme {
-        TagdooLoginScreen()
+        TagdooLoginScreen({})
     }
 }

@@ -22,9 +22,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.apptagdog.components.TagdogBottomNav
 
 @Composable
-fun TagdooHomeScreen() {
+fun TagdooHomeScreen(navController: NavController) {
     // Cores baseadas no seu design
     val primaryOrange = Color(0xFFD37D41)
     val darkBlue = Color(0xFF1B243B)
@@ -62,7 +64,9 @@ fun TagdooHomeScreen() {
         bottomBar = {
             // Barra de Navegação Inferior
             HomeBottomNav(primaryOrange = primaryOrange, grayText = grayText)
+
         }
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -312,6 +316,6 @@ fun HomeBottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, act
 @Composable
 fun PreviewTagdooHomeScreen() {
     MaterialTheme {
-        TagdooHomeScreen()
+        TagdooHomeScreen(navController = androidx.navigation.compose.rememberNavController())
     }
 }

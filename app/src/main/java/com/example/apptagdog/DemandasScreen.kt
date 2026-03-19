@@ -23,9 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun TagdogDemandasScreen() {
+fun TagdogDemandasScreen(navController: NavController) {
     val primaryOrange = Color(0xFFD37D41)
     val backgroundWhite = Color(0xFFFAFAFA)
     val darkText = Color(0xFF1B243B)
@@ -293,7 +294,7 @@ fun TagdogBottomNav(activeColor: Color, inactiveColor: Color) {
             // Demandas (SELECIONADO)
             BottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = true, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
             // Pesquisar tutor
-            BottomNavItem(icon = Icons.Default.PersonSearch, label = "Pesquisar tutor", isSelected = false, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
+            BottomNavItem(icon = Icons.Default.PersonSearch, label = "Perfil", isSelected = false, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -336,6 +337,6 @@ fun BottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, activeC
 @Composable
 fun PreviewTagdogDemandasScreen() {
     MaterialTheme {
-        TagdogDemandasScreen()
+        TagdogDemandasScreen(navController = androidx.navigation.compose.rememberNavController())
     }
 }
