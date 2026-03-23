@@ -187,7 +187,7 @@ fun TagdooLoginScreen(onLoginClick: () -> Unit) {
 
                 // A Logo (Fica sobre o Card por estar depois dele dentro do Box)
                 Image(
-                    painter = painterResource(R.drawable.logo_tagdog),
+                    painter = painterResource(R.drawable.logo),
                     // Troque por R.drawable.sua_logo
                     contentDescription = "Logo Tagdoo",
                     modifier = Modifier
@@ -206,20 +206,7 @@ fun TagdooLoginScreen(onLoginClick: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(bottom = 24.dp)
             ) {
-                Text(
-                    text = "Precisou de ajuda?",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
-                Text(
-                    text = "Suporte Técnico",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = darkText,
-                    modifier = Modifier
-                        .padding(top = 4.dp)
-                        .clickable { /* Ação suporte */ }
-                )
+
             }
         }
     }

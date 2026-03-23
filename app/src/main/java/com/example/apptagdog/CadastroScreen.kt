@@ -18,6 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.apptagdog.R
+
 
 @Composable
 fun TagdogLoginScreen() {
@@ -26,6 +28,8 @@ fun TagdogLoginScreen() {
     val backgroundGray = Color(0xFFF5F6F8)
     val darkText = Color(0xFF1C2434)
     val lightGray = Color(0xFFF3F4F6)
+    // ADICIONADO: Nova cor de fundo azul escuro
+    val darkBlue = Color(0xFF1B243B)
 
     // Estados dos campos de texto
     var nome by remember { mutableStateOf("") }
@@ -34,7 +38,8 @@ fun TagdogLoginScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundGray)
+            // ALTERADO: Usando a nova cor de fundo azul escuro
+            .background(darkBlue)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -43,8 +48,8 @@ fun TagdogLoginScreen() {
         // 1. Logo (Ajustado para usar Image)
         // Certifique-se de colocar a imagem da sua logo na pasta res/drawable do Android Studio
         Image(
-            // Substitua 'android.R.drawable.ic_menu_gallery' pelo nome da sua imagem, ex: R.drawable.sua_logo
-            painter = painterResource(R.drawable.logo_tagdog),
+            // Substitua 'R.drawable.logo_tagdog' pelo nome da sua imagem, ex: painterResource(R.drawable.sua_logo)
+            painter = painterResource(R.drawable.logo),
             contentDescription = "Logo Tagdog",
             modifier = Modifier.size(100.dp),
             contentScale = ContentScale.Fit
@@ -56,7 +61,8 @@ fun TagdogLoginScreen() {
             text = "TAGDOG",
             fontSize = 22.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = darkText
+            // ALTERADO: Cor do texto para branco para contraste com o fundo escuro
+            color = Color.White
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -116,8 +122,6 @@ fun TagdogLoginScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     trailingIcon = {
-                        // Se você ainda não adicionou a biblioteca estendida de ícones no Gradle,
-                        // você pode trocar Icons.Default.Visibility por Icons.Default.Email temporariamente
                         Icon(
                             imageVector = Icons.Default.Visibility,
                             contentDescription = "Ver email",
@@ -136,7 +140,7 @@ fun TagdogLoginScreen() {
 
                 // Dropdown Simulado: Sou Funcionário
                 OutlinedTextField(
-                    value = "Sou Funcionário",
+                    value = "Sou Tutor",
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -197,12 +201,7 @@ fun TagdogLoginScreen() {
 
         // Link de Suporte Técnico no rodapé
         TextButton(onClick = { /* Ação de Suporte */ }) {
-            Text(
-                text = "Suporte Técnico",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = darkText
-            )
+
         }
         Spacer(modifier = Modifier.height(16.dp))
     }

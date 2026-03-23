@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun TagdogDemandasScreen(navController: NavController) {
@@ -130,18 +131,19 @@ fun TagdogDemandasScreen(navController: NavController) {
                     // Foto, Nome e Badge
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(R.drawable.labrador), // Substitua pelo seu R.drawable.foto_thor
+                            painter = painterResource(R.drawable.labrador),
                             contentDescription = "Foto do cão",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(60.dp)
                                 .clip(RoundedCornerShape(12.dp))
+                                .background(Color.LightGray)
                         )
                         Spacer(modifier = Modifier.width(16.dp))
 
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(text = "Thor", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = darkText)
-                            Text(text = "Misto / Vira-lata", fontSize = 14.sp, color = grayText)
+                            Text(text = "Bob", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = darkText)
+                            Text(text = "Labrador", fontSize = 14.sp, color = grayText)
                         }
 
                         // Badge Verde
@@ -293,8 +295,9 @@ fun TagdogBottomNav(activeColor: Color, inactiveColor: Color) {
             BottomNavItem(icon = Icons.Default.LocationOn, label = "Rastreamento", isSelected = false, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
             // Demandas (SELECIONADO)
             BottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = true, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
-            // Pesquisar tutor
-            BottomNavItem(icon = Icons.Default.PersonSearch, label = "Perfil", isSelected = false, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
+
+            // CORRIGIDO AQUI: Trocado 'HomeBottomNavItem' para 'BottomNavItem'
+            BottomNavItem(icon = Icons.Default.Person, label = "Perfil", isSelected = false, activeColor = activeColor, inactiveColor = inactiveColor, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -337,6 +340,6 @@ fun BottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, activeC
 @Composable
 fun PreviewTagdogDemandasScreen() {
     MaterialTheme {
-        TagdogDemandasScreen(navController = androidx.navigation.compose.rememberNavController())
+        TagdogDemandasScreen(navController = rememberNavController())
     }
 }

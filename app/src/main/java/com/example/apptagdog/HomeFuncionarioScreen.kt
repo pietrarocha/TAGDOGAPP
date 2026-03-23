@@ -26,8 +26,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun TagdooHomeScreen(navController: NavController) {
-    // Cores baseadas no seu design
+fun HomeFuncionarioScreen(navController: NavController) {
+    // Cores baseadas no design
     val primaryOrange = Color(0xFFD37D41)
     val darkBlue = Color(0xFF1B243B)
     val backgroundGray = Color(0xFFF5F6F8)
@@ -38,17 +38,17 @@ fun TagdooHomeScreen(navController: NavController) {
     Scaffold(
         containerColor = backgroundGray,
         floatingActionButton = {
-            // Botão Flutuante "Novo Check-In"
+            // Botão Flutuante
             Button(
-                onClick = { /* Ação de Check-in */ },
+                onClick = { /* Ação de Novo Cadastro/Check-in */ },
                 colors = ButtonDefaults.buttonColors(containerColor = primaryOrange),
                 shape = RoundedCornerShape(50),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 14.dp),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
             ) {
                 Text(
                     text = "Novo Cadastro",
-                    fontSize = 16.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
@@ -63,7 +63,7 @@ fun TagdooHomeScreen(navController: NavController) {
         },
         bottomBar = {
             // Barra de Navegação Inferior
-            HomeBottomNav(primaryOrange = primaryOrange, grayText = grayText)
+            FuncionarioBottomNav(primaryOrange = primaryOrange, grayText = grayText)
         }
 
     ) { paddingValues ->
@@ -85,7 +85,7 @@ fun TagdooHomeScreen(navController: NavController) {
                 Surface(
                     shape = CircleShape,
                     color = Color.White,
-                    shadowElevation = 2.dp, // Sombreado leve
+                    shadowElevation = 1.dp,
                     modifier = Modifier
                         .size(44.dp)
                         .align(Alignment.CenterStart)
@@ -113,7 +113,7 @@ fun TagdooHomeScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .size(44.dp)
-                        .background(Color(0xFFE0E0E0), CircleShape)
+                        .background(Color(0xFFE5E5E5), CircleShape)
                         .align(Alignment.CenterEnd)
                         .clickable { /* Ação do Perfil */ },
                     contentAlignment = Alignment.Center
@@ -122,7 +122,7 @@ fun TagdooHomeScreen(navController: NavController) {
                         imageVector = Icons.Default.Person,
                         contentDescription = "Perfil",
                         tint = Color.Gray,
-                        modifier = Modifier.size(28.dp)
+                        modifier = Modifier.size(26.dp)
                     )
                 }
             }
@@ -134,38 +134,51 @@ fun TagdooHomeScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp)
+                        .height(90.dp)
                         .background(darkBlue)
                 )
 
-                // Recipiente Cinza/Branco com Cantos Arredondados (Sobreposto ao Azul)
+                // Recipiente Cinza Claro com Cantos Arredondados (Sobreposto ao Azul)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 40.dp) // Sobe o cartão por cima do azul
+                        .padding(top = 40.dp) // Curva sobreposta ao azul
                         .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
                         .background(backgroundGray)
                         .padding(horizontal = 24.dp)
-                        .padding(bottom = 70.dp), // Adicionado padding inferior para compensar o FAB e ajudar na centralização
-                    verticalArrangement = Arrangement.Center // CENTRALIZA OS CARTÕES NA TELA
+                        .padding(bottom = 70.dp), // Compensa o espaço do Botão Flutuante
+                    verticalArrangement = Arrangement.Center, // <-- CENTRALIZA OS CARTÕES
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    // Cartão: Rastreamento GPS
-                    ServiceCardItem(
+                    // Cartão 1: Mapa e Rastreamento
+                    FuncionarioServiceCardItem(
                         title = "Rastreamento GPS",
-                        description = "Rastreie o seu PET.",
+                        description = "Acompanhe a rota atual do PET.",
                         icon = Icons.Default.LocationOn,
                         iconBgColor = lightOrangeBg,
                         iconColor = primaryOrange,
                         darkText = darkText
                     )
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(24.dp)) // <-- ESPAÇAMENTO AUMENTADO
 
-                    // Cartão: Perfil (antigo Banco de Tutores)
-                    ServiceCardItem(
-                        title = "Perfil",
-                        description = "Acesse os seus dados.",
+                    // Cartão 2: Demandas
+                    FuncionarioServiceCardItem(
+                        title = "Demandas",
+                        description = "Acesse as suas demandas atribuídas.",
+                        icon = Icons.AutoMirrored.Filled.Assignment,
+                        iconBgColor = lightOrangeBg,
+                        iconColor = primaryOrange,
+                        darkText = darkText
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp)) // <-- ESPAÇAMENTO AUMENTADO
+
+                    // Cartão 3: Banco de Tutores
+                    FuncionarioServiceCardItem(
+                        title = "Banco de Tutores",
+                        description = "Consulte a lista de tutores.",
                         icon = Icons.Default.Search,
                         iconBgColor = lightOrangeBg,
                         iconColor = primaryOrange,
@@ -180,7 +193,7 @@ fun TagdooHomeScreen(navController: NavController) {
 // --- Componentes Reutilizáveis ---
 
 @Composable
-fun ServiceCardItem(
+fun FuncionarioServiceCardItem(
     title: String,
     description: String,
     icon: ImageVector,
@@ -189,9 +202,9 @@ fun ServiceCardItem(
     darkText: Color
 ) {
     Card(
-        shape = RoundedCornerShape(20.dp), // Deixei os cantos um pouco mais redondos
+        shape = RoundedCornerShape(20.dp), // Cantos um pouco mais redondos
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp), // Aumentei levemente a sombra
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp), // Leve aumento na sombra
         modifier = Modifier
             .fillMaxWidth()
             .clickable { /* Ação do cartão */ }
@@ -199,12 +212,12 @@ fun ServiceCardItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 24.dp, horizontal = 20.dp), // AUMENTEI O PADDING INTERNO AQUI
+                .padding(vertical = 24.dp, horizontal = 20.dp), // <-- PADDING INTERNO AUMENTADO
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(60.dp) // AUMENTEI A CAIXA DO ÍCONE (era 50)
+                    .size(64.dp) // <-- CAIXA DO ÍCONE MAIOR
                     .background(iconBgColor, RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center
             ) {
@@ -212,7 +225,7 @@ fun ServiceCardItem(
                     imageVector = icon,
                     contentDescription = title,
                     tint = iconColor,
-                    modifier = Modifier.size(28.dp) // AUMENTEI O ÍCONE (era 24)
+                    modifier = Modifier.size(32.dp) // <-- ÍCONE MAIOR
                 )
             }
 
@@ -221,18 +234,18 @@ fun ServiceCardItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    fontSize = 18.sp, // AUMENTEI O TÍTULO (era 16)
+                    fontSize = 18.sp, // <-- TÍTULO MAIOR
                     fontWeight = FontWeight.Bold,
                     color = darkText
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = description,
-                    fontSize = 13.sp, // AUMENTEI A DESCRIÇÃO (era 11)
+                    fontSize = 14.sp, // <-- DESCRIÇÃO MAIOR
                     color = Color.Gray,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    lineHeight = 16.sp // Ajustei a altura da linha
+                    lineHeight = 18.sp
                 )
             }
 
@@ -242,66 +255,79 @@ fun ServiceCardItem(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "Ir",
                 tint = iconColor,
-                modifier = Modifier.size(28.dp) // Aumentei a setinha também
+                modifier = Modifier.size(28.dp) // <-- SETINHA MAIOR
             )
         }
     }
 }
 
 @Composable
-fun HomeBottomNav(primaryOrange: Color, grayText: Color) {
+fun FuncionarioBottomNav(primaryOrange: Color, grayText: Color) {
     Surface(
         color = Color.White,
-        shadowElevation = 8.dp,
+        shadowElevation = 16.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(65.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            HomeBottomNavItem(icon = Icons.Default.Home, label = "Inicio", isSelected = true, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            HomeBottomNavItem(icon = Icons.Default.LocationOn, label = "Mapa", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            HomeBottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            HomeBottomNavItem(icon = Icons.Default.Person, label = "Perfil", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
+            FuncionarioBottomNavItem(icon = Icons.Default.Home, label = "Inicio", isSelected = true, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
+            FuncionarioBottomNavItem(icon = Icons.Default.LocationOn, label = "Mapa", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
+            FuncionarioBottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
+            // Alterado aqui: de Person para PersonSearch e texto para Tutores
+            FuncionarioBottomNavItem(icon = Icons.Default.PersonSearch, label = "Banco de Tutores", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Composable
-fun HomeBottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, activeColor: Color, inactiveColor: Color, modifier: Modifier) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.clickable { /* Navegação */ }
+fun FuncionarioBottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, activeColor: Color, inactiveColor: Color, modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .clickable { /* Navegação */ }
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .height(3.dp)
-                .background(if (isSelected) activeColor else Color.Transparent)
-        )
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = if (isSelected) activeColor else inactiveColor,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            fontSize = 10.sp,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-            color = if (isSelected) activeColor else inactiveColor
-        )
+        // Indicador de aba selecionada colado no topo
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth(0.5f)
+                    .height(3.dp)
+                    .background(activeColor)
+            )
+        }
 
-        Spacer(modifier = Modifier.height(10.dp))
+        // Ícone e Texto
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = if (isSelected) activeColor else inactiveColor,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = label,
+                fontSize = 10.sp,
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                color = if (isSelected) activeColor else inactiveColor
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewTagdooHomeScreen() {
+fun PreviewHomeFuncionarioScreen() {
     MaterialTheme {
-        TagdooHomeScreen(navController = rememberNavController())
+        HomeFuncionarioScreen(navController = rememberNavController())
     }
 }
