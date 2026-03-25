@@ -44,10 +44,11 @@ fun TagdogBottomNav(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
+            // 1. HOME (CORRIGIDO AQUI)
             BottomNavItem(
                 icon = Icons.Default.Home,
                 label = "Home",
-                isSelected = true, // Você precisará lógica para isso depois
+                isSelected = currentRoute == "home", // <-- Mudou de 'true' para checar a rota
                 activeColor = primaryOrange,
                 inactiveColor = grayText,
                 modifier = Modifier.weight(1f)
@@ -91,11 +92,11 @@ fun TagdogBottomNav(navController: NavController) {
                 }
             }
 
-            // 4. PESQUISAR TUTOR
+            // 4. PESQUISAR TUTOR (CORRIGIDO AQUI)
             BottomNavItem(
                 icon = Icons.Default.PersonSearch,
                 label = "Pesquisar tutor",
-                isSelected = currentRoute == "pesquisar tutor", // Ajuste para a rota correta se for diferente
+                isSelected = currentRoute == "pesquisar", // <-- Mudou para bater certinho com a rota abaixo
                 activeColor = primaryOrange,
                 inactiveColor = grayText,
                 modifier = Modifier.weight(1f)
@@ -123,7 +124,7 @@ fun BottomNavItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .clickable { onClick() } // <-- ISSO AQUI FAZ O CLIQUE FUNCIONAR!
+            .clickable { onClick() }
             .padding(bottom = 8.dp)
     ){
         Box(

@@ -3,63 +3,62 @@ package com.example.apptagdog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-// Lembre-se de importar o seu R aqui, ex: import com.seuapp.R
+import androidx.navigation.NavController
 
 @Composable
-fun TagdooLoginScreen(
-    onLoginClick: () -> Unit,
-    onCadastroClick: () -> Unit) {
-    // Cores do layout
+fun EsqueceuSenhaScreen(navController: NavController) {
     val primaryOrange = Color(0xFFD37D41)
     val backgroundGray = Color(0xFFF5F6F8)
     val darkText = Color(0xFF1B243B)
 
-    // Estados dos campos
     var email by remember { mutableStateOf("") }
-    var senha by remember { mutableStateOf("") }
-    var senhaVisible by remember { mutableStateOf(false) }
 
-    // Box principal que ocupa toda a tela
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGray)
     ) {
-        // 1. Imagem de Fundo (Os Cachorros)
-        // Coloque a foto dos cachorros na pasta drawable e mude o R.drawable abaixo
+        // 1. Imagem de Fundo
         Image(
-            painter = painterResource(R.drawable.cachorros), // Troque por R.drawable.foto_cachorros
+            painter = painterResource(R.drawable.cachorros), // Troque pelo seu R.drawable.foto_cachorros
             contentDescription = "Fundo de cachorros",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(350.dp) // Altura da imagem de fundo
+                .height(350.dp)
         )
 
         // 2. Conteúdo Principal (Card e Textos)
@@ -70,15 +69,12 @@ fun TagdooLoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Empurra o card para baixo para revelar a imagem de fundo
             Spacer(modifier = Modifier.height(220.dp))
 
-            // Box para fazer a logo sobrepor o Card Branco
             Box(
                 contentAlignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxWidth()
             ) {
-
                 // O Card Branco
                 Card(
                     shape = RoundedCornerShape(32.dp),
@@ -86,7 +82,7 @@ fun TagdooLoginScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 45.dp) // Espaço exato para a logo encaixar na borda
+                        .padding(top = 45.dp)
                 ) {
                     Column(
                         modifier = Modifier
@@ -95,18 +91,17 @@ fun TagdooLoginScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        Spacer(modifier = Modifier.height(16.dp)) // Espaço abaixo da logo
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                        // Títulos
                         Text(
-                            text = "Bem-vindo",
-                            fontSize = 28.sp,
+                            text = "Recuperar Senha",
+                            fontSize = 24.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = darkText
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Acesse sua conta para continuar",
+                            text = "Digite seu e-mail para receber\nas instruções de recuperação.",
                             fontSize = 14.sp,
                             color = Color.Gray,
                             textAlign = TextAlign.Center
@@ -130,36 +125,11 @@ fun TagdooLoginScreen(
                             )
                         )
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(32.dp))
 
-                        // Campo Senha
-                        OutlinedTextField(
-                            value = senha,
-                            onValueChange = { senha = it },
-                            placeholder = { Text("Senha", color = Color.Gray) },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            visualTransformation = if (senhaVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            trailingIcon = {
-                                val image = if (senhaVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                                IconButton(onClick = { senhaVisible = !senhaVisible }) {
-                                    Icon(imageVector = image, contentDescription = "Mostrar senha", tint = Color.Gray)
-                                }
-                            },
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = primaryOrange,
-                                unfocusedBorderColor = Color.LightGray,
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent
-                            )
-                        )
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Botão Entrar
+                        // Botão Enviar
                         Button(
-                            onClick = { onLoginClick() },
+                            onClick = { /* Aqui vai a lógica de enviar email no futuro */ },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(55.dp),
@@ -167,61 +137,38 @@ fun TagdooLoginScreen(
                             colors = ButtonDefaults.buttonColors(containerColor = primaryOrange)
                         ) {
                             Text(
-                                text = "Entrar",
+                                text = "Enviar instruções",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
 
-                        // Esqueci minha senha
+                        // Botão Voltar ao Login
                         Text(
-                            text = "Esqueci minha senha",
+                            text = "Voltar para o Login",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
-                            color = primaryOrange,
-                            modifier = Modifier.clickable { onCadastroClick() }
+                            color = Color.Gray,
+                            modifier = Modifier.clickable { navController.popBackStack() } // Volta a tela!
                         )
                     }
                 }
 
-                // A Logo (Fica sobre o Card por estar depois dele dentro do Box)
+                // A Logo
                 Image(
-                    painter = painterResource(R.drawable.logo),
-                    // Troque por R.drawable.sua_logo
+                    painter = painterResource(R.drawable.logo), // Troque pela sua logo
                     contentDescription = "Logo Tagdoo",
                     modifier = Modifier
                         .size(90.dp)
-                        .background(Color.White, CircleShape) // Cria a borda branca ao redor da logo
-                        .padding(6.dp) // Espessura da borda branca
+                        .background(Color.White, CircleShape)
+                        .padding(6.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Fit
                 )
             }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            // Rodapé
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(bottom = 24.dp)
-            ) {
-
-            }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewTagdooLoginScreen() {
-    MaterialTheme {
-        // Passamos funções vazias {} apenas para o preview não quebrar
-        TagdooLoginScreen(
-            onLoginClick = {},
-            onCadastroClick = {}
-        )
     }
 }

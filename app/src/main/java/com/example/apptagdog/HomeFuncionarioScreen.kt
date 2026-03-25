@@ -9,20 +9,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PersonSearch
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
@@ -33,14 +41,13 @@ fun HomeFuncionarioScreen(navController: NavController) {
     val backgroundGray = Color(0xFFF5F6F8)
     val lightOrangeBg = Color(0xFFFDF0E7)
     val darkText = Color(0xFF1B243B)
-    val grayText = Color(0xFF888888)
 
     Scaffold(
         containerColor = backgroundGray,
         floatingActionButton = {
             // Botão Flutuante
             Button(
-                onClick = { /* Ação de Novo Cadastro/Check-in */ },
+                onClick = { navController.navigate("cadastro") }, // <-- Agora leva para o cadastro
                 colors = ButtonDefaults.buttonColors(containerColor = primaryOrange),
                 shape = RoundedCornerShape(50),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 14.dp),
@@ -62,8 +69,8 @@ fun HomeFuncionarioScreen(navController: NavController) {
             }
         },
         bottomBar = {
-            // Barra de Navegação Inferior
-            FuncionarioBottomNav(primaryOrange = primaryOrange, grayText = grayText)
+            // AQUI ESTÁ A MÁGICA: A barra oficial conectada ao NavController
+            TagdogBottomNav(navController = navController)
         }
 
     ) { paddingValues ->
@@ -89,7 +96,7 @@ fun HomeFuncionarioScreen(navController: NavController) {
                     modifier = Modifier
                         .size(44.dp)
                         .align(Alignment.CenterStart)
-                        .clickable { /* Ação de voltar */ }
+                        .clickable { navController.popBackStack() } // <-- Agora volta a tela anterior
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
@@ -147,7 +154,7 @@ fun HomeFuncionarioScreen(navController: NavController) {
                         .background(backgroundGray)
                         .padding(horizontal = 24.dp)
                         .padding(bottom = 70.dp), // Compensa o espaço do Botão Flutuante
-                    verticalArrangement = Arrangement.Center, // <-- CENTRALIZA OS CARTÕES
+                    verticalArrangement = Arrangement.Center, // CENTRALIZA OS CARTÕES
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -158,10 +165,11 @@ fun HomeFuncionarioScreen(navController: NavController) {
                         icon = Icons.Default.LocationOn,
                         iconBgColor = lightOrangeBg,
                         iconColor = primaryOrange,
-                        darkText = darkText
+                        darkText = darkText,
+                        onClick = { navController.navigate("mapa") } // <-- Navegação!
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp)) // <-- ESPAÇAMENTO AUMENTADO
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     // Cartão 2: Demandas
                     FuncionarioServiceCardItem(
@@ -170,10 +178,11 @@ fun HomeFuncionarioScreen(navController: NavController) {
                         icon = Icons.AutoMirrored.Filled.Assignment,
                         iconBgColor = lightOrangeBg,
                         iconColor = primaryOrange,
-                        darkText = darkText
+                        darkText = darkText,
+                        onClick = { navController.navigate("demandas") } // <-- Navegação!
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp)) // <-- ESPAÇAMENTO AUMENTADO
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     // Cartão 3: Banco de Tutores
                     FuncionarioServiceCardItem(
@@ -182,7 +191,8 @@ fun HomeFuncionarioScreen(navController: NavController) {
                         icon = Icons.Default.Search,
                         iconBgColor = lightOrangeBg,
                         iconColor = primaryOrange,
-                        darkText = darkText
+                        darkText = darkText,
+                        onClick = { navController.navigate("pesquisar") } // <-- Navegação!
                     )
                 }
             }
@@ -190,8 +200,7 @@ fun HomeFuncionarioScreen(navController: NavController) {
     }
 }
 
-// --- Componentes Reutilizáveis ---
-
+// --- Componente: Cartão de Serviço Atualizado (Com onClick) ---
 @Composable
 fun FuncionarioServiceCardItem(
     title: String,
@@ -199,25 +208,26 @@ fun FuncionarioServiceCardItem(
     icon: ImageVector,
     iconBgColor: Color,
     iconColor: Color,
-    darkText: Color
+    darkText: Color,
+    onClick: () -> Unit // <-- Parâmetro obrigatório agora
 ) {
     Card(
-        shape = RoundedCornerShape(20.dp), // Cantos um pouco mais redondos
+        shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp), // Leve aumento na sombra
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Ação do cartão */ }
+            .clickable { onClick() } // <-- O clique acontece aqui
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 24.dp, horizontal = 20.dp), // <-- PADDING INTERNO AUMENTADO
+                .padding(vertical = 24.dp, horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(64.dp) // <-- CAIXA DO ÍCONE MAIOR
+                    .size(64.dp)
                     .background(iconBgColor, RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center
             ) {
@@ -225,7 +235,7 @@ fun FuncionarioServiceCardItem(
                     imageVector = icon,
                     contentDescription = title,
                     tint = iconColor,
-                    modifier = Modifier.size(32.dp) // <-- ÍCONE MAIOR
+                    modifier = Modifier.size(32.dp)
                 )
             }
 
@@ -234,14 +244,14 @@ fun FuncionarioServiceCardItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    fontSize = 18.sp, // <-- TÍTULO MAIOR
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = darkText
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = description,
-                    fontSize = 14.sp, // <-- DESCRIÇÃO MAIOR
+                    fontSize = 14.sp,
                     color = Color.Gray,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -255,72 +265,136 @@ fun FuncionarioServiceCardItem(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "Ir",
                 tint = iconColor,
-                modifier = Modifier.size(28.dp) // <-- SETINHA MAIOR
+                modifier = Modifier.size(28.dp)
             )
         }
     }
 }
 
+// --- Componentes da Barra de Navegação (Definitivos) ---
 @Composable
-fun FuncionarioBottomNav(primaryOrange: Color, grayText: Color) {
+fun TagdogBottomNav(navController: NavController) {
+
+    val primaryOrange = Color(0xFFD37D41)
+    val grayText = Color(0xFF888888)
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Surface(
         color = Color.White,
-        shadowElevation = 16.dp,
+        shadowElevation = 8.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(65.dp),
+            modifier = Modifier.fillMaxWidth().height(65.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FuncionarioBottomNavItem(icon = Icons.Default.Home, label = "Inicio", isSelected = true, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            FuncionarioBottomNavItem(icon = Icons.Default.LocationOn, label = "Mapa", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            FuncionarioBottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            // Alterado aqui: de Person para PersonSearch e texto para Tutores
-            FuncionarioBottomNavItem(icon = Icons.Default.PersonSearch, label = "Banco de Tutores", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
+            BottomNavItem(
+                icon = Icons.Default.Home,
+                label = "Home",
+                isSelected = currentRoute == "home",
+                activeColor = primaryOrange,
+                inactiveColor = grayText,
+                modifier = Modifier.weight(1f)
+            ) {
+                navController.navigate("home") {
+                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+
+            BottomNavItem(
+                icon = Icons.Default.LocationOn,
+                label = "Mapa",
+                isSelected = currentRoute == "mapa",
+                activeColor = primaryOrange,
+                inactiveColor = grayText,
+                modifier = Modifier.weight(1f)
+            ) {
+                navController.navigate("mapa") {
+                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+
+            BottomNavItem(
+                icon = Icons.AutoMirrored.Filled.Assignment,
+                label = "Demandas",
+                isSelected = currentRoute == "demandas",
+                activeColor = primaryOrange,
+                inactiveColor = grayText,
+                modifier = Modifier.weight(1f)
+            ) {
+                navController.navigate("demandas") {
+                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+
+            BottomNavItem(
+                icon = Icons.Default.PersonSearch,
+                label = "Tutores",
+                isSelected = currentRoute == "pesquisar",
+                activeColor = primaryOrange,
+                inactiveColor = grayText,
+                modifier = Modifier.weight(1f)
+            ) {
+                navController.navigate("pesquisar") {
+                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         }
     }
 }
 
 @Composable
-fun FuncionarioBottomNavItem(icon: ImageVector, label: String, isSelected: Boolean, activeColor: Color, inactiveColor: Color, modifier: Modifier) {
-    Box(
+fun BottomNavItem(
+    icon: ImageVector,
+    label: String,
+    isSelected: Boolean,
+    activeColor: Color,
+    inactiveColor: Color,
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxHeight()
-            .clickable { /* Navegação */ }
-    ) {
-        // Indicador de aba selecionada colado no topo
-        if (isSelected) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .fillMaxWidth(0.5f)
-                    .height(3.dp)
-                    .background(activeColor)
-            )
-        }
+            .clickable { onClick() }
+    ){
+        // Linha indicadora no topo
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .height(3.dp)
+                .background(if (isSelected) activeColor else Color.Transparent)
+        )
 
-        // Ícone e Texto
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = if (isSelected) activeColor else inactiveColor,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = label,
-                fontSize = 10.sp,
-                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                color = if (isSelected) activeColor else inactiveColor
-            )
-        }
+        Spacer(modifier = Modifier.weight(1f)) // Empurra o ícone pro meio
+
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = if (isSelected) activeColor else inactiveColor,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = label,
+            fontSize = 10.sp,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+            color = if (isSelected) activeColor else inactiveColor
+        )
+
+        Spacer(modifier = Modifier.weight(1f)) // Empurra o texto pra cima
     }
 }
 

@@ -18,11 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.example.apptagdog.R
 
 
 @Composable
-fun TagdogLoginScreen() {
+fun CadastroScreen(navController: NavController) {
     // Definindo as cores baseadas no seu design
     val primaryOrange = Color(0xFFD17B42)
     val backgroundGray = Color(0xFFF5F6F8)
@@ -166,7 +169,8 @@ fun TagdogLoginScreen() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     OutlinedButton(
-                        onClick = { /* Ação Voltar */ },
+                        // ISSO FAZ VOLTAR PARA A TELA ANTERIOR:
+                        onClick = { navController.popBackStack() },
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier
                             .weight(1f)
@@ -225,6 +229,6 @@ fun InputLabel(text: String, color: Color) {
 @Composable
 fun PreviewTagdogScreen() {
     MaterialTheme {
-        TagdogLoginScreen()
+        CadastroScreen(navController = rememberNavController())
     }
 }
