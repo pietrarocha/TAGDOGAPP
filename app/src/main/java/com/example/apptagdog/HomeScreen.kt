@@ -81,15 +81,21 @@ fun TagdooHomeScreen(navController: NavController) {
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Botão Voltar (Alinhado à esquerda)
                 Surface(
                     shape = CircleShape,
                     color = Color.White,
-                    shadowElevation = 2.dp, // Sombreado leve
+                    shadowElevation = 2.dp,
                     modifier = Modifier
                         .size(44.dp)
                         .align(Alignment.CenterStart)
-                        .clickable { /* Ação de voltar */ }
+                        .clickable {
+                            // Substitua "rota_de_login" pelo nome exato da sua rota no NavHost
+                            navController.navigate("login") {
+                                // Essa parte garante que a pilha de telas seja limpa,
+                                // evitando que o usuário aperte "voltar" no celular e volte para cá
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(

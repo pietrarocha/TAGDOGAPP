@@ -88,15 +88,21 @@ fun HomeFuncionarioScreen(navController: NavController) {
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Botão Voltar (Alinhado à esquerda)
                 Surface(
                     shape = CircleShape,
                     color = Color.White,
-                    shadowElevation = 1.dp,
+                    shadowElevation = 2.dp,
                     modifier = Modifier
                         .size(44.dp)
                         .align(Alignment.CenterStart)
-                        .clickable { navController.popBackStack() } // <-- Agora volta a tela anterior
+                        .clickable {
+                            // Substitua "rota_de_login" pelo nome exato da sua rota no NavHost
+                            navController.navigate("login") {
+                                // Essa parte garante que a pilha de telas seja limpa,
+                                // evitando que o usuário aperte "voltar" no celular e volte para cá
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(

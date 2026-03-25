@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apptagdog.CadastroScreen
+import com.example.apptagdog.EsqueceuSenhaScreen
 import com.example.apptagdog.HomeFuncionarioScreen
 import com.example.apptagdog.RastreamentoScreen
 import com.example.apptagdog.TagdogDemandasScreen
@@ -27,14 +28,17 @@ fun AppNavigation() {
                         popUpTo("login") { inclusive = true }
                     }
                 },
-                onCadastroClick = {
-                    navController.navigate("cadastro")
+                onEsqueciSenhaClick = {
+                    navController.navigate("RecuperarSenha")
                 }
             )
         }
 
         composable("cadastro") {
             CadastroScreen(navController = navController)
+        }
+        composable("RecuperarSenha") {
+            EsqueceuSenhaScreen(navController = navController)
         }
 
         // ==========================================

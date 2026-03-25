@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TagdooLoginScreen(
     onLoginClick: () -> Unit,
-    onCadastroClick: () -> Unit) {
+    onEsqueciSenhaClick: () -> Unit) {
     // Cores do layout
     val primaryOrange = Color(0xFFD37D41)
     val backgroundGray = Color(0xFFF5F6F8)
@@ -182,7 +182,7 @@ fun TagdooLoginScreen(
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             color = primaryOrange,
-                            modifier = Modifier.clickable { onCadastroClick() }
+                            modifier = Modifier.clickable { onEsqueciSenhaClick() }
                         )
                     }
                 }
@@ -221,7 +221,7 @@ fun PreviewTagdooLoginScreen() {
         // Passamos funções vazias {} apenas para o preview não quebrar
         TagdooLoginScreen(
             onLoginClick = {},
-            onCadastroClick = {}
+            onEsqueciSenhaClick = {}
         )
     }
 }
