@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
@@ -266,9 +265,9 @@ fun HomeBottomNav(primaryOrange: Color, grayText: Color) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // DEIXAMOS APENAS INÍCIO, MAPA E PERFIL AQUI:
             HomeBottomNavItem(icon = Icons.Default.Home, label = "Inicio", isSelected = true, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
             HomeBottomNavItem(icon = Icons.Default.LocationOn, label = "Mapa", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
-            HomeBottomNavItem(icon = Icons.AutoMirrored.Filled.Assignment, label = "Demandas", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
             HomeBottomNavItem(icon = Icons.Default.Person, label = "Perfil", isSelected = false, activeColor = primaryOrange, inactiveColor = grayText, modifier = Modifier.weight(1f))
         }
     }

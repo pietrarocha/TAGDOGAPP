@@ -120,7 +120,7 @@ fun TagdooLoginScreen(
                             onValueChange = { email = it },
                             placeholder = { Text("E-mail", color = Color.Gray) },
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
+                            shape = RoundedCornerShape(12.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = primaryOrange,
@@ -138,7 +138,7 @@ fun TagdooLoginScreen(
                             onValueChange = { senha = it },
                             placeholder = { Text("Senha", color = Color.Gray) },
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
+                            shape = RoundedCornerShape(12.dp),
                             visualTransformation = if (senhaVisible) VisualTransformation.None else PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             trailingIcon = {
@@ -163,7 +163,7 @@ fun TagdooLoginScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(55.dp),
-                            shape = RoundedCornerShape(50),
+                            shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = primaryOrange)
                         ) {
                             Text(
